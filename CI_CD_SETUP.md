@@ -54,6 +54,13 @@ Open Jenkins:
 
 - `http://localhost:8080`
 
+If you changed `jenkins-docker/Dockerfile`, rebuild Jenkins:
+
+```powershell
+docker compose down
+docker compose up -d --build
+```
+
 ### 3.2 Create a Pipeline job
 
 1. Jenkins → **New Item** → **Pipeline**

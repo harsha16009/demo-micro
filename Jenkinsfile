@@ -18,6 +18,22 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage('Verify Docker Tools') {
+            steps {
+                sh '''
+                    set +e
+                    echo "Docker CLI:"
+                    docker --version || true
+                    echo ""
+                    echo "Docker Compose (v2 plugin):"
+                    docker compose version || true
+                    echo ""
+                    echo "Docker Compose (v1 binary):"
+                    docker-compose --version || true
+                '''
+            }
+        }
         
         stage('Build Backend Services') {
             parallel {
@@ -157,7 +173,15 @@ pipeline {
             steps {
                 echo '🚀 Deploying to staging environment...'
                 sh '''
-                    docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build
+                    set -e
+                    if docker compose version >/dev/null 2>&1; then
+                      docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build
+                    elif command -v docker-compose >/dev/null 2>&1; then
+                      docker-compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build
+                    else
+                      echo "ERROR: Docker Compose is not installed in this Jenkins agent (need 'docker compose' or 'docker-compose')."
+                      exit 1
+                    fi
                     sleep 10
                 '''
             }
@@ -195,7 +219,15 @@ pipeline {
             steps {
                 echo '🌟 Deploying to production...'
                 sh '''
-                    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+                    set -e
+                    if docker compose version >/dev/null 2>&1; then
+                      docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+                    elif command -v docker-compose >/dev/null 2>&1; then
+                      docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+                    else
+                      echo "ERROR: Docker Compose is not installed in this Jenkins agent (need 'docker compose' or 'docker-compose')."
+                      exit 1
+                    fi
                     echo "✅ Production deployment complete!"
                 '''
             }
