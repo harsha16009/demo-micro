@@ -16,7 +16,7 @@ kill -9 <PID>
 ### MongoDB Connection Error
 ```bash
 # Check MongoDB is running
-docker-compose logs mongo
+docker compose logs mongo
 
 # Verify connection string
 mongodb://admin:admin123@mongo:27017/auth-db?authSource=admin
@@ -28,19 +28,35 @@ mongosh --authenticationDatabase admin -u admin -p admin123 localhost:27017
 ### Docker Build Issues
 ```bash
 # Clear build cache
-docker-compose build --no-cache
+docker compose build --no-cache
 
 # Check logs
-docker-compose logs <service-name>
+docker compose logs <service-name>
 
 # Rebuild specific service
-docker-compose build --no-cache auth-service
+docker compose build --no-cache auth-service
 ```
+
+### Docker Desktop (Windows) - can't connect to engine
+If you see an error like:
+`open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.`
+
+1. Start **Docker Desktop** and wait until it says **Running**.
+2. In Docker Desktop: **Settings → General → Use the WSL 2 based engine** (recommended), then restart Docker Desktop.
+3. In PowerShell:
+   - `docker context ls`
+   - `docker context use default` (or `desktop-linux` if that's your working one)
+   - `docker info` (should return server info, not an error)
+
+If you see `open C:\\Users\\<you>\\.docker\\config.json: Access is denied`:
+1. Close Docker Desktop.
+2. Run PowerShell **as Administrator** once and try `docker info` again.
+3. If it still fails, check that `C:\\Users\\<you>\\.docker\\` is not read-only and your user has permission to read it.
 
 ### Network Issues
 ```bash
 # Check network connectivity
-docker-compose ps
+docker compose ps
 
 # Verify service URLs in .env files
 # Services should use container names as hosts
@@ -61,10 +77,10 @@ docker stats
 ### Frontend Not Loading
 ```bash
 # Check frontend logs
-docker-compose logs frontend
+docker compose logs frontend
 
 # Verify frontend is built
-docker-compose exec frontend npm run build
+docker compose exec frontend npm run build
 
 # Check API gateway connectivity
 curl http://localhost:3000/health

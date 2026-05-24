@@ -15,7 +15,7 @@ cd fruits-delivery-microservices
 
 ### Step 2: Start Services
 ```bash
-docker-compose up -d
+docker compose up -d --build
 ```
 
 Wait 30-60 seconds for services to start...
@@ -29,13 +29,27 @@ Wait 30-60 seconds for services to start...
 
 ```bash
 # Check all services are running
-docker-compose ps
+docker compose ps
 
 # Test API Gateway
 curl http://localhost:3000/health
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
+```
+
+## 📈 Monitoring (Prometheus + Grafana)
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d --build
+```
+
+- **Prometheus**: http://localhost:9090
+- **Grafana**: http://localhost:3006 (login: `admin` / `admin`)
+
+If Grafana dashboards don’t load or you want a clean reset:
+```bash
+docker compose -f docker-compose.yml -f docker-compose.monitoring.yml down -v
 ```
 
 ## 🧪 Test Features
@@ -76,7 +90,7 @@ curl "http://localhost:3000/api/products?category=pomegranate"
 ## 🛑 Stop Services
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## 📱 Sample Promo Codes

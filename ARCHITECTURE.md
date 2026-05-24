@@ -162,7 +162,7 @@ const logger = winston.createLogger({
 docker run -d -p 9090:9090 prom/prometheus
 
 # Using Grafana
-docker run -d -p 3001:3000 grafana/grafana
+docker run -d -p 3006:3000 grafana/grafana
 ```
 
 ## Security Best Practices
