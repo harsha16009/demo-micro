@@ -62,21 +62,15 @@ spec:
               cpu: "250m"
               memory: "256Mi"
           livenessProbe:
-            exec:
-              command:
-                - mongosh
-                - --eval
-                - "db.adminCommand('ping')"
-            initialDelaySeconds: 15
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 30
             periodSeconds: 10
           readinessProbe:
-            exec:
-              command:
-                - mongosh
-                - --eval
-                - "db.adminCommand('ping')"
+            tcpSocket:
+              port: 27017
             initialDelaySeconds: 10
-            periodSeconds: 10
+            periodSeconds: 5
       volumes:
         - name: mongo-storage
           persistentVolumeClaim:

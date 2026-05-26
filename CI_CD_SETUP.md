@@ -58,7 +58,16 @@ If you changed `jenkins-docker/Dockerfile`, rebuild Jenkins:
 
 ```powershell
 docker compose down
-docker compose up -d --build
+docker compose build --no-cache
+docker compose up -d --build --force-recreate
+```
+
+Quick verification (inside the Jenkins container):
+
+```powershell
+docker exec -it fruits-jenkins docker --version
+docker exec -it fruits-jenkins docker compose version
+docker exec -it fruits-jenkins docker-compose --version
 ```
 
 ### 3.2 Create a Pipeline job

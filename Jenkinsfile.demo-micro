@@ -1,13 +1,11 @@
+// Jenkinsfile intended to live in https://github.com/harsha16009/demo-micro (or your fork)
+// so you can use "Pipeline script from SCM" + GitHub webhooks.
+
 pipeline {
     agent any
 
-    options {
-        skipDefaultCheckout(true)
-    }
-
     stages {
-
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
                 checkout scm
             }
@@ -47,7 +45,6 @@ pipeline {
     }
 
     post {
-
         success {
             echo 'Project Running Successfully!'
         }
