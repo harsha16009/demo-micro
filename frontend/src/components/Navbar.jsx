@@ -23,7 +23,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="text-3xl">fruits are fresh</div>
+            <div className="text-3xl"></div>
             <span className="text-2xl font-bold text-green-600 hidden sm:inline">FruitHub</span>
           </Link>
 
