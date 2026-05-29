@@ -96,7 +96,7 @@ const Hero = ({ onShopClick }) => {
       <div className="hero">
         <div className="hero-wrapper" ref={wrapperRef}>
           <div className="hero-content" ref={contentRef}>
-            <h2 className="organic">ORGANIC & PURE</h2>
+            <h2 className="organic">ORGANIC & PURE FRESH</h2>
             <h1 className="headline">THE PERFECT FRUIT EXPERIENCE</h1>
             <button 
               onClick={onShopClick} 
